@@ -57,3 +57,5 @@ navigation:
     link: /audio.html
   - title: 视频处理
     link: /video.html
+  - title: 视频静音去除
+    link: /video_silence.html
