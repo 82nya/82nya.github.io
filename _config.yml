@@ -59,3 +59,5 @@ navigation:
     link: /video.html
   - title: 视频静音去除
     link: /video_silence.html
+  - title: AI 多媒体
+    link: /ai_media.html
