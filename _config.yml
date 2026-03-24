@@ -53,3 +53,5 @@ navigation:
     link: /code.html
   - title: 图像处理
     link: /image.html
+  - title: 音频处理
+    link: /audio.html
