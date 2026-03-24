@@ -5,22 +5,14 @@
     <title>音频处理演示</title>
     <style>
         body { font-family: sans-serif; max-width: 1000px; margin: auto; padding: 20px; }
-        iframe { border: 1px solid #ccc; margin: 20px 0; }
-        img { max-width: 100%; border: 1px solid #ddd; margin: 20px 0; }
+        iframe { border: 1px solid #ccc; margin: 20px 0; width: 100%; height: 600px; }
     </style>
 </head>
 <body>
     <h1>音频处理演示</h1>
-
-    <h2>📊 音频波形图（本地生成）</h2>
-    <img src="media/waveform.png" alt="Audio Waveform" style="width:100%">
-    <p>说明：使用 Python 的 <code>torchaudio</code> 库加载音频文件，绘制波形图。</p>
-
-    <hr>
-
     <h2>🎵 MusicGen：文本生成音乐</h2>
     <p>在下方输入描述（例如 “lo-fi chill beat”），即可生成一段由 AI 创作的音乐。</p>
-    <iframe src="https://sanchit-gandhi-musicgen-streaming.hf.space" width="100%" height="600" frameborder="0"></iframe>
+    <iframe src="https://sanchit-gandhi-musicgen-streaming.hf.space" frameborder="0"></iframe>
     <p><em>注意：首次加载可能需要几秒钟，建议使用 Chrome 浏览器。</em></p>
 </body>
 </html>
