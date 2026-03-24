@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>图像处理演示</title>
+    <style>
+        body { font-family: sans-serif; max-width: 1000px; margin: auto; padding: 20px; }
+        img { margin: 10px; border: 1px solid #ccc; }
+        .thumb { width: 128px; height: auto; }
+        .original { max-width: 300px; height: auto; }
+        hr { margin: 30px 0; }
+    </style>
+</head>
+<body>
+    <h1>图像处理演示</h1>
+    <p>以下展示使用 Pillow 库批量生成缩略图的效果。</p>
+
+    <h2>📷 原始图片</h2>
+    <img class="original" src="media/test1.jpg" alt="原始图片">
+
+    <h2>🖼️ 缩略图 (128x128)</h2>
+    <img class="thumb" src="media/thumbnails/thumb_test1.jpg" alt="缩略图">
+
+    <hr>
+
+    <h2>✏️ 边缘检测 (Canny)</h2>
+    <p>如需显示边缘检测结果，请将生成的 <code>edges_output.png</code> 上传到 <code>media/</code> 文件夹，并取消下面一行的注释。</p>
+    <!-- <img src="media/edges_output.png" width="300"> -->
+</body>
+</html>
