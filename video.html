@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>视频处理演示</title>
+    <style>
+        body { font-family: sans-serif; max-width: 1000px; margin: auto; padding: 20px; }
+        iframe { border: 1px solid #ccc; margin: 20px 0; width: 100%; height: 700px; }
+        .note { background-color: #f9f9f9; padding: 10px; border-left: 4px solid #007acc; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>视频处理演示</h1>
+    <p>以下展示一个在线视频背景移除工具，由 Hugging Face Spaces 提供支持。</p>
+    <div class="note">
+        <strong>说明：</strong> 由于 Space 运行在免费 CPU 实例上，处理较长的视频可能需要等待，建议上传短片段（如几秒钟的人物视频）。
+    </div>
+    <iframe src="https://amirgame197-Remove-Video-Background.hf.space" frameborder="0"></iframe>
+    <p><em>技术栈：使用 <code>rembg</code> 库 + <code>Gradio</code> 构建，可自动去除视频中的人物背景。</em></p>
+</body>
+</html>
