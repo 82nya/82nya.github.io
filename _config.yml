@@ -55,3 +55,5 @@ navigation:
     link: /image.html
   - title: 音频处理
     link: /audio.html
+  - title: 视频处理
+    link: /video.html
