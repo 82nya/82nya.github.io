@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>视频静音去除</title>
+    <style>
+        body { font-family: sans-serif; max-width: 1000px; margin: auto; padding: 20px; }
+        iframe { border: 1px solid #ccc; margin: 20px 0; }
+        .note { background-color: #f9f9f9; padding: 10px; border-left: 4px solid #007acc; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>自动去除视频静音段</h1>
+    <p>上传视频，自动检测并切除静音片段，使视频更紧凑。</p>
+    <div class="note">
+        <strong>说明：</strong> 处理时间取决于视频长度，建议上传短视频测试。免费 CPU 实例可能稍慢，请耐心等待。
+    </div>
+    <iframe src="https://NeuralFalcon-remove-silence-from-video.hf.space" width="100%" height="700" frameborder="0"></iframe>
+    <p><em>使用 <code>pydub</code> 检测静音，<code>moviepy</code> 剪辑视频。</em></p>
+</body>
+</html>
