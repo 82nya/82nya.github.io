@@ -61,3 +61,5 @@ navigation:
     link: /video_silence.html
   - title: AI 多媒体
     link: /ai_media.html
+  - title: 健康助手
+    link: /health.html
