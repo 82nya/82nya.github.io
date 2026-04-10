@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>AI 健康助手 - 亚健康管理</title>
+    <!-- Chart.js 轻量图表库 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
         }
         body {
             font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f5f7fa;
+            background-color: #f0f4f8;
             color: #1f2d3d;
         }
         h1 {
@@ -25,18 +27,24 @@
             color: #5c6b7e;
             margin-bottom: 2rem;
         }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
         .card {
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-radius: 24px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.05);
             padding: 20px 25px;
-            margin-bottom: 30px;
+            transition: 0.2s;
         }
         .card h2 {
             margin-top: 0;
             border-left: 5px solid #2c7da0;
             padding-left: 15px;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
         }
         .question-item {
             margin-bottom: 18px;
@@ -47,12 +55,13 @@
             font-weight: 500;
             margin-bottom: 8px;
         }
-        select {
-            padding: 6px 12px;
+        select, input {
+            padding: 8px 12px;
             border-radius: 30px;
             border: 1px solid #ced4da;
             background: white;
             font-size: 0.9rem;
+            width: auto;
         }
         button {
             background-color: #2c7da0;
@@ -60,9 +69,9 @@
             border: none;
             padding: 10px 24px;
             border-radius: 40px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
-            margin-top: 15px;
+            margin-top: 12px;
             transition: background 0.2s;
         }
         button:hover {
@@ -85,89 +94,153 @@
         }
         iframe {
             width: 100%;
-            height: 700px;
+            height: 600px;
             border: none;
             border-radius: 20px;
             background: white;
         }
+        .data-table {
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        .tip-box {
+            background: #eef2fa;
+            padding: 15px;
+            border-radius: 16px;
+            margin: 15px 0;
+            font-size: 1rem;
+        }
+        .inline-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
         footer {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 40px;
             font-size: 0.8rem;
             color: #7c8b9c;
         }
         @media (max-width: 700px) {
             body { padding: 12px; }
+            .grid { grid-template-columns: 1fr; }
             .card { padding: 15px; }
-            iframe { height: 600px; }
+            iframe { height: 500px; }
         }
     </style>
 </head>
 <body>
 
 <h1>🩺 亚健康管理与 AI 健康助手</h1>
-<div class="sub">基于 SHSQ-25 亚健康自测量表 + 智能问答机器人</div>
+<div class="sub">SHSQ-25 自测 · 健康数据跟踪 · 智能问答 · 实用小工具</div>
 
-<!-- 亚健康自测问卷 (SHSQ-25) -->
-<div class="card">
-    <h2>📋 亚健康状态自测 (SHSQ-25)</h2>
-    <p>请根据近两周的真实感受，为每个症状选择最符合的频率：<br>
-    <strong>0-无</strong> &nbsp;|&nbsp; <strong>1-偶尔</strong> &nbsp;|&nbsp; <strong>2-经常</strong> &nbsp;|&nbsp; <strong>3-总是</strong>
-    </p>
-    <form id="shsqForm">
-        <div id="questionsContainer"></div>
-        <button type="button" onclick="calculateSHSQ()">📊 查看评估结果</button>
-        <div id="shsqResult" class="result" style="display:none;"></div>
-    </form>
-    <div class="disclaimer">
-        ⚠️ 本测评仅用于亚健康风险提示，不能替代专业医疗诊断。如有持续不适，请及时就医。
+<!-- 第一行：亚健康自测 + AI 聊天机器人 -->
+<div class="grid">
+    <!-- 左侧：亚健康自测 -->
+    <div class="card">
+        <h2>📋 亚健康自测 (SHSQ-25)</h2>
+        <p>根据近两周的感受，为每个症状选择频率：<br><strong>0-无</strong> &nbsp;|&nbsp; <strong>1-偶尔</strong> &nbsp;|&nbsp; <strong>2-经常</strong> &nbsp;|&nbsp; <strong>3-总是</strong></p>
+        <form id="shsqForm">
+            <div id="questionsContainer"></div>
+            <button type="button" onclick="calculateSHSQ()">📊 查看评估结果</button>
+            <div id="shsqResult" class="result" style="display:none;"></div>
+        </form>
+        <div class="disclaimer">⚠️ 本测评仅供参考，不能替代专业医疗诊断。如有不适请就医。</div>
+    </div>
+
+    <!-- 右侧：AI 健康聊天机器人 -->
+    <div class="card">
+        <h2>💬 AI 健康助手</h2>
+        <p>咨询健康问题、生活习惯、疾病预防等（科普建议）</p>
+        <iframe src="https://sugan04-healthbot-crs.hf.space" title="健康聊天机器人"></iframe>
     </div>
 </div>
 
-<!-- AI 健康聊天机器人 -->
+<!-- 第二行：健康贴士 + BMI 计算器 -->
+<div class="grid">
+    <!-- 健康贴士 -->
+    <div class="card">
+        <h2>💡 每日健康贴士</h2>
+        <div id="tipDisplay" class="tip-box">点击下方按钮获取一条健康建议</div>
+        <button onclick="showRandomTip()">🎲 换一条贴士</button>
+    </div>
+
+    <!-- BMI 计算器 -->
+    <div class="card">
+        <h2>⚖️ BMI 计算与建议</h2>
+        <div class="inline-group">
+            <div>身高 (cm): <input type="number" id="height" placeholder="160"></div>
+            <div>体重 (kg): <input type="number" id="weight" placeholder="60"></div>
+            <button onclick="calcBMI()">计算 BMI</button>
+        </div>
+        <div id="bmiResult" class="result" style="display:none;"></div>
+    </div>
+</div>
+
+<!-- 第三行：健康数据记录与可视化 -->
 <div class="card">
-    <h2>💬 AI 健康助手（智能问答）</h2>
-    <p>你可以咨询健康问题、生活习惯、疾病预防等。助手会尽力提供科普建议。</p>
-    <iframe src="https://sugan04-healthbot-crs.hf.space" title="健康聊天机器人"></iframe>
+    <h2>📊 健康数据记录与分析</h2>
+    <p>记录每日体重(kg)、睡眠时长(h)、步数，数据保存在浏览器中。</p>
+    <div class="inline-group" style="margin-bottom: 15px;">
+        <input type="date" id="recordDate">
+        <input type="number" id="recordWeight" placeholder="体重 (kg)" step="0.1">
+        <input type="number" id="recordSleep" placeholder="睡眠 (小时)" step="0.5">
+        <input type="number" id="recordSteps" placeholder="步数">
+        <button onclick="addHealthRecord()">➕ 添加记录</button>
+        <button onclick="clearAllData()" style="background-color:#a56969;">🗑️ 清空所有数据</button>
+    </div>
+    <div class="data-table">
+        <table id="healthTable">
+            <thead><tr><th>日期</th><th>体重(kg)</th><th>睡眠(h)</th><th>步数</th><th>操作</th></tr></thead>
+            <tbody id="healthTbody"></tbody>
+        </table>
+    </div>
+    <canvas id="healthChart" width="400" height="200" style="max-width:100%; height:auto;"></canvas>
+    <div class="disclaimer">数据仅保存在您当前浏览器的本地存储中，不会上传至服务器。</div>
+</div>
+
+<!-- 第四行：其他小工具（饮水/久坐提醒） -->
+<div class="card">
+    <h2>⏰ 健康提醒小工具</h2>
+    <div class="inline-group">
+        <button onclick="startWaterReminder()">💧 开启饮水提醒（每45分钟）</button>
+        <button onclick="startPostureReminder()">🧘 开启久坐提醒（每60分钟）</button>
+        <button onclick="stopReminders()">⏹️ 停止所有提醒</button>
+    </div>
+    <p id="reminderStatus" style="margin-top: 12px; color:#2c7da0;"></p>
 </div>
 
 <footer>
-    🌱 保持良好作息 + 适度运动 + 积极心态 = 远离亚健康
+    🌱 规律作息 · 适度运动 · 积极心态 · 定期监测 — 远离亚健康
 </footer>
 
 <script>
-    // SHSQ-25 完整题目（根据公开资料整理，与 xinlixue.cn 版本一致）
+    // ----------------------------- 1. 亚健康自测 (SHSQ-25) -----------------------------
     const questions = [
-        "容易疲劳，休息后也难以缓解",
-        "入睡困难或睡眠浅、多梦",
-        "头昏脑涨，注意力不集中",
-        "情绪低落或容易烦躁",
-        "肩颈酸痛或腰背不适",
-        "消化不良或食欲不振",
-        "记忆力下降，做事效率低",
-        "对以前喜欢的事情失去兴趣",
-        "心慌、胸闷或气短",
-        "怕冷或怕热，手脚冰凉",
-        "眼睛干涩、视力模糊",
-        "容易感冒或反复口腔溃疡",
-        "皮肤粗糙、长痘或过敏",
-        "性欲减退或月经不调（女性）",
-        "耳鸣、听力下降",
-        "口干咽燥，容易上火",
-        "大便不调（便秘或腹泻）",
-        "紧张时出汗或手抖",
-        "反应迟钝，动作不灵活",
-        "社交回避，不愿与人交流",
-        "清晨起床后仍感困倦",
-        "工作/学习效率明显下降",
-        "对压力易感，容易紧张",
-        "肌肉酸痛（无明确原因）",
+        "容易疲劳，休息后也难以缓解", "入睡困难或睡眠浅、多梦", "头昏脑涨，注意力不集中",
+        "情绪低落或容易烦躁", "肩颈酸痛或腰背不适", "消化不良或食欲不振",
+        "记忆力下降，做事效率低", "对以前喜欢的事情失去兴趣", "心慌、胸闷或气短",
+        "怕冷或怕热，手脚冰凉", "眼睛干涩、视力模糊", "容易感冒或反复口腔溃疡",
+        "皮肤粗糙、长痘或过敏", "性欲减退或月经不调（女性）", "耳鸣、听力下降",
+        "口干咽燥，容易上火", "大便不调（便秘或腹泻）", "紧张时出汗或手抖",
+        "反应迟钝，动作不灵活", "社交回避，不愿与人交流", "清晨起床后仍感困倦",
+        "工作/学习效率明显下降", "对压力易感，容易紧张", "肌肉酸痛（无明确原因）",
         "体重异常波动（增或减）"
     ];
 
-    // 动态生成题目列表
     function buildQuestions() {
         const container = document.getElementById('questionsContainer');
+        if (!container) return;
         container.innerHTML = '';
         questions.forEach((q, idx) => {
             const div = document.createElement('div');
@@ -185,12 +258,11 @@
         });
     }
 
-    // 计算总分并显示结果
     function calculateSHSQ() {
         let total = 0;
         for (let i = 0; i < questions.length; i++) {
             const select = document.getElementById(`q${i}`);
-            total += parseInt(select.value);
+            if (select) total += parseInt(select.value);
         }
         let level = '';
         let suggestion = '';
@@ -208,19 +280,196 @@
             suggestion = '健康状况不错！继续保持良好的生活习惯。';
         }
         const resultDiv = document.getElementById('shsqResult');
-        resultDiv.style.display = 'block';
-        resultDiv.innerHTML = `
-            <strong>总分：${total} / 75</strong><br>
-            <span style="font-size:1.2rem;">${level}</span><br>
-            ${suggestion}<br>
-            <small>注：分数越高，亚健康风险越高。本测评仅供参考，不能替代医疗诊断。</small>
-        `;
-        // 滚动到结果区域
-        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        if (resultDiv) {
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `<strong>总分：${total} / 75</strong><br><span style="font-size:1.2rem;">${level}</span><br>${suggestion}<br><small>分数越高，亚健康风险越高。本测评仅供参考。</small>`;
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
     }
 
-    buildQuestions();
-</script>
+    // ----------------------------- 2. 健康贴士 -----------------------------
+    const tips = [
+        "每坐1小时，站起来活动5分钟，缓解腰背压力。",
+        "每天保证7-8小时睡眠，固定入睡和起床时间。",
+        "午餐多吃深绿色蔬菜，补充维生素和膳食纤维。",
+        "工作间隙做深呼吸：吸气4秒，憋气4秒，呼气6秒。",
+        "周末安排30分钟中等强度运动，如快走或骑车。",
+        "每日饮水至少1.5升，少量多次。",
+        "睡前一小时远离电子屏幕，有助提高睡眠质量。",
+        "每天晒太阳15分钟，补充维生素D。",
+        "保持社交联系，与朋友交流可缓解压力。",
+        "每周至少进行2次力量训练，如深蹲、俯卧撑。"
+    ];
+    function showRandomTip() {
+        const idx = Math.floor(Math.random() * tips.length);
+        const tipDiv = document.getElementById('tipDisplay');
+        if (tipDiv) tipDiv.innerHTML = tips[idx];
+    }
+    showRandomTip(); // 初始化一条
 
+    // ----------------------------- 3. BMI 计算 -----------------------------
+    function calcBMI() {
+        const heightCm = parseFloat(document.getElementById('height').value);
+        const weightKg = parseFloat(document.getElementById('weight').value);
+        const resultDiv = document.getElementById('bmiResult');
+        if (!resultDiv) return;
+        if (isNaN(heightCm) || isNaN(weightKg) || heightCm <= 0 || weightKg <= 0) {
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '❌ 请输入有效的身高和体重（正数）。';
+            return;
+        }
+        const heightM = heightCm / 100;
+        const bmi = weightKg / (heightM * heightM);
+        let category = '';
+        if (bmi < 18.5) category = '体重过轻';
+        else if (bmi < 24) category = '正常范围';
+        else if (bmi < 28) category = '超重';
+        else category = '肥胖';
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = `你的 BMI 值为 <strong>${bmi.toFixed(1)}</strong> (${category})。<br>${getBMIAdvice(category)}`;
+    }
+    function getBMIAdvice(cat) {
+        if (cat === '体重过轻') return '建议增加营养摄入，适当增肌。';
+        if (cat === '正常范围') return '保持均衡饮食和规律运动。';
+        if (cat === '超重') return '注意控制热量，增加有氧运动。';
+        return '建议咨询医生，制定科学减重计划。';
+    }
+
+    // ----------------------------- 4. 健康数据记录与图表 -----------------------------
+    let healthChart = null;
+
+    function loadHealthData() {
+        let data = localStorage.getItem('health_records');
+        if (!data) return [];
+        return JSON.parse(data);
+    }
+
+    function saveHealthData(records) {
+        localStorage.setItem('health_records', JSON.stringify(records));
+    }
+
+    function addHealthRecord() {
+        let date = document.getElementById('recordDate').value;
+        const weight = parseFloat(document.getElementById('recordWeight').value);
+        const sleep = parseFloat(document.getElementById('recordSleep').value);
+        const steps = parseInt(document.getElementById('recordSteps').value);
+        if (!date) date = new Date().toISOString().slice(0,10);
+        if (isNaN(weight) && isNaN(sleep) && isNaN(steps)) {
+            alert('请至少填写一项有效数据（体重/睡眠/步数）');
+            return;
+        }
+        let records = loadHealthData();
+        const existingIdx = records.findIndex(r => r.date === date);
+        const newRecord = { date, weight: isNaN(weight)?null:weight, sleep: isNaN(sleep)?null:sleep, steps: isNaN(steps)?null:steps };
+        if (existingIdx >= 0) records[existingIdx] = newRecord;
+        else records.push(newRecord);
+        records.sort((a,b) => new Date(a.date) - new Date(b.date));
+        saveHealthData(records);
+        renderHealthTable();
+        renderChart();
+        // 清空输入框
+        document.getElementById('recordWeight').value = '';
+        document.getElementById('recordSleep').value = '';
+        document.getElementById('recordSteps').value = '';
+    }
+
+    function deleteRecord(date) {
+        let records = loadHealthData();
+        records = records.filter(r => r.date !== date);
+        saveHealthData(records);
+        renderHealthTable();
+        renderChart();
+    }
+
+    function clearAllData() {
+        if (confirm('确定要清空所有健康记录吗？')) {
+            localStorage.removeItem('health_records');
+            renderHealthTable();
+            renderChart();
+        }
+    }
+
+    function renderHealthTable() {
+        const tbody = document.getElementById('healthTbody');
+        if (!tbody) return;
+        const records = loadHealthData();
+        tbody.innerHTML = '';
+        records.forEach(rec => {
+            const row = tbody.insertRow();
+            row.insertCell(0).innerText = rec.date;
+            row.insertCell(1).innerText = rec.weight !== null ? rec.weight : '—';
+            row.insertCell(2).innerText = rec.sleep !== null ? rec.sleep : '—';
+            row.insertCell(3).innerText = rec.steps !== null ? rec.steps : '—';
+            const delCell = row.insertCell(4);
+            const delBtn = document.createElement('button');
+            delBtn.innerText = '删除';
+            delBtn.style.backgroundColor = '#a56969';
+            delBtn.style.padding = '4px 12px';
+            delBtn.onclick = () => deleteRecord(rec.date);
+            delCell.appendChild(delBtn);
+        });
+    }
+
+    function renderChart() {
+        const records = loadHealthData();
+        if (records.length === 0) {
+            if (healthChart) { healthChart.destroy(); healthChart = null; }
+            return;
+        }
+        const labels = records.map(r => r.date);
+        const weightData = records.map(r => r.weight);
+        const sleepData = records.map(r => r.sleep);
+        const stepsData = records.map(r => r.steps);
+        const ctx = document.getElementById('healthChart').getContext('2d');
+        if (healthChart) healthChart.destroy();
+        healthChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    { label: '体重 (kg)', data: weightData, borderColor: '#2c7da0', fill: false, tension: 0.2 },
+                    { label: '睡眠 (小时)', data: sleepData, borderColor: '#f4a261', fill: false, tension: 0.2 },
+                    { label: '步数 (千)', data: stepsData.map(v => v===null?null:v/1000), borderColor: '#e9c46a', fill: false, tension: 0.2 }
+                ]
+            },
+            options: { responsive: true, maintainAspectRatio: true }
+        });
+    }
+
+    // ----------------------------- 5. 提醒小工具 (简单定时器) -----------------------------
+    let waterInterval = null, postureInterval = null;
+    function startWaterReminder() {
+        if (waterInterval) clearInterval(waterInterval);
+        waterInterval = setInterval(() => {
+            alert('💧 饮水时间到！记得补充水分～');
+        }, 45 * 60 * 1000);
+        document.getElementById('reminderStatus').innerHTML = '饮水提醒已开启（每45分钟）。';
+    }
+    function startPostureReminder() {
+        if (postureInterval) clearInterval(postureInterval);
+        postureInterval = setInterval(() => {
+            alert('🧘 久坐提醒！请站起来活动一下身体。');
+        }, 60 * 60 * 1000);
+        document.getElementById('reminderStatus').innerHTML = '久坐提醒已开启（每60分钟）。';
+    }
+    function stopReminders() {
+        if (waterInterval) clearInterval(waterInterval);
+        if (postureInterval) clearInterval(postureInterval);
+        waterInterval = null;
+        postureInterval = null;
+        document.getElementById('reminderStatus').innerHTML = '所有提醒已停止。';
+    }
+
+    // 页面加载时初始化
+    window.onload = () => {
+        buildQuestions();
+        renderHealthTable();
+        renderChart();
+        // 默认给今日日期
+        const today = new Date().toISOString().slice(0,10);
+        document.getElementById('recordDate').value = today;
+    };
+</script>
 </body>
+</html>
 </html>
