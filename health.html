@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>AI 健康助手 - 亚健康管理</title>
+    <title>AI Health Assistant - Suboptimal Health Management</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * {
@@ -141,133 +141,132 @@
 </head>
 <body>
 
-<h1>🩺 亚健康管理与 AI 健康助手</h1>
-<div class="sub">SHSQ-25 自测 · 健康数据跟踪 · 智能问答 · 饮食运动情绪记录</div>
+<h1>🩺 Suboptimal Health Management & AI Assistant</h1>
+<div class="sub">SHSQ-25 Self-test · Health Data Tracking · AI Q&A · Diet, Exercise & Mood Logs</div>
 
-<!-- 第一行：亚健康自测 + AI 聊天机器人 -->
+<!-- Row 1: SHSQ-25 + AI Chatbot -->
 <div class="grid">
     <div class="card">
-        <h2>📋 亚健康自测 (SHSQ-25)</h2>
-        <p>根据近两周的感受，为每个症状选择频率：<br><strong>0-无</strong> &nbsp;|&nbsp; <strong>1-偶尔</strong> &nbsp;|&nbsp; <strong>2-经常</strong> &nbsp;|&nbsp; <strong>3-总是</strong></p>
+        <h2>📋 Suboptimal Health Self-test (SHSQ-25)</h2>
+        <p>Based on your feelings in the past two weeks, select the frequency for each symptom:<br><strong>0 - Never</strong> &nbsp;|&nbsp; <strong>1 - Occasionally</strong> &nbsp;|&nbsp; <strong>2 - Often</strong> &nbsp;|&nbsp; <strong>3 - Always</strong></p>
         <form id="shsqForm">
             <div id="questionsContainer"></div>
-            <button type="button" onclick="calculateSHSQ()">📊 查看评估结果</button>
+            <button type="button" onclick="calculateSHSQ()">📊 View Assessment Result</button>
             <div id="shsqResult" class="result" style="display:none;"></div>
         </form>
-        <div class="disclaimer">⚠️ 本测评仅供参考，不能替代专业医疗诊断。如有不适请就医。</div>
+        <div class="disclaimer">⚠️ This assessment is for reference only and cannot replace professional medical diagnosis. Consult a doctor if you feel unwell.</div>
     </div>
 
     <div class="card">
-        <h2>💬 AI 健康助手</h2>
-        <p>咨询健康问题、生活习惯、疾病预防等（科普建议）</p>
-        <iframe src="https://sugan04-healthbot-crs.hf.space" title="健康聊天机器人"></iframe>
+        <h2>💬 AI Health Assistant</h2>
+        <p>Ask about health issues, lifestyle, disease prevention (informational only).</p>
+        <iframe src="https://sugan04-healthbot-crs.hf.space" title="Health Chatbot"></iframe>
     </div>
 </div>
 
-<!-- 第二行：健康贴士 + BMI 计算器 -->
+<!-- Row 2: Health Tips + BMI Calculator -->
 <div class="grid">
     <div class="card">
-        <h2>💡 每日健康贴士</h2>
-        <div id="tipDisplay" class="tip-box">点击下方按钮获取一条健康建议</div>
-        <button onclick="showRandomTip()">🎲 换一条贴士</button>
+        <h2>💡 Daily Health Tip</h2>
+        <div id="tipDisplay" class="tip-box">Click the button below to get a health tip</div>
+        <button onclick="showRandomTip()">🎲 Another Tip</button>
     </div>
 
     <div class="card">
-        <h2>⚖️ BMI 计算与建议</h2>
+        <h2>⚖️ BMI Calculator & Advice</h2>
         <div class="inline-group">
-            <div>身高 (cm): <input type="number" id="height" placeholder="160"></div>
-            <div>体重 (kg): <input type="number" id="weight" placeholder="60"></div>
-            <button onclick="calcBMI()">计算 BMI</button>
+            <div>Height (cm): <input type="number" id="height" placeholder="160"></div>
+            <div>Weight (kg): <input type="number" id="weight" placeholder="60"></div>
+            <button onclick="calcBMI()">Calculate BMI</button>
         </div>
         <div id="bmiResult" class="result" style="display:none;"></div>
     </div>
 </div>
 
-<!-- 第三行：健康数据记录与可视化 -->
+<!-- Row 3: Health Data Recording (Weight/Sleep/Steps) -->
 <div class="card">
-    <h2>📊 健康数据记录与分析</h2>
-    <p>记录每日体重(kg)、睡眠时长(h)、步数，数据保存在浏览器中。</p>
+    <h2>📊 Health Data Recording & Analysis</h2>
+    <p>Record daily weight (kg), sleep (hours), steps. Data is saved in your browser.</p>
     <div class="inline-group">
         <input type="date" id="recordDate">
-        <input type="number" id="recordWeight" placeholder="体重 (kg)" step="0.1">
-        <input type="number" id="recordSleep" placeholder="睡眠 (小时)" step="0.5">
-        <input type="number" id="recordSteps" placeholder="步数">
-        <button onclick="addHealthRecord()">➕ 添加记录</button>
-        <button onclick="clearAllData()" style="background-color:#a56969;">🗑️ 清空所有数据</button>
+        <input type="number" id="recordWeight" placeholder="Weight (kg)" step="0.1">
+        <input type="number" id="recordSleep" placeholder="Sleep (hours)" step="0.5">
+        <input type="number" id="recordSteps" placeholder="Steps">
+        <button onclick="addHealthRecord()">➕ Add Record</button>
+        <button onclick="clearAllData()" style="background-color:#a56969;">🗑️ Clear All Data</button>
     </div>
     <div class="data-table">
         <table id="healthTable">
-            <thead><tr><th>日期</th><th>体重(kg)</th><th>睡眠(h)</th><th>步数</th><th>操作</th></tr>
-            </thead>
+            <thead><tr><th>Date</th><th>Weight (kg)</th><th>Sleep (h)</th><th>Steps</th><th>Action</th></tr></thead>
             <tbody id="healthTbody"></tbody>
         </table>
     </div>
     <canvas id="healthChart" width="400" height="200" style="max-width:100%; height:auto;"></canvas>
-    <div class="disclaimer">数据仅保存在您当前浏览器的本地存储中，不会上传至服务器。</div>
+    <div class="disclaimer">Data is stored locally in your browser's localStorage and not uploaded to any server.</div>
 </div>
 
-<!-- 第四行：饮食记录、运动计划、情绪日记（新增） -->
+<!-- Row 4: Diet, Exercise, Mood -->
 <div class="grid">
-    <!-- 饮食记录 -->
+    <!-- Diet Log -->
     <div class="card">
-        <h2>🍽️ 饮食记录</h2>
+        <h2>🍽️ Diet Log</h2>
         <div class="inline-group">
             <input type="date" id="mealDate">
             <select id="mealType">
-                <option value="早餐">早餐</option>
-                <option value="午餐">午餐</option>
-                <option value="晚餐">晚餐</option>
-                <option value="加餐">加餐</option>
+                <option value="Breakfast">Breakfast</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Dinner">Dinner</option>
+                <option value="Snack">Snack</option>
             </select>
-            <input type="text" id="mealDesc" placeholder="吃了什么？" style="width: 150px;">
-            <input type="number" id="mealCal" placeholder="热量(kcal)" step="10">
-            <button onclick="addMealRecord()">➕ 添加</button>
+            <input type="text" id="mealDesc" placeholder="What did you eat?" style="width: 150px;">
+            <input type="number" id="mealCal" placeholder="Calories (kcal)" step="10">
+            <button onclick="addMealRecord()">➕ Add</button>
         </div>
         <div class="data-table">
             <table id="mealTable">
-                <thead><tr><th>日期</th><th>餐次</th><th>内容</th><th>热量</th><th>操作</th></tr></thead>
+                <thead><tr><th>Date</th><th>Meal</th><th>Description</th><th>Calories</th><th>Action</th></tr></thead>
                 <tbody id="mealTbody"></tbody>
             </table>
         </div>
         <div id="mealSummary" class="result" style="display:none;"></div>
     </div>
 
-    <!-- 运动计划 -->
+    <!-- Exercise Plan -->
     <div class="card">
-        <h2>🏃 运动计划</h2>
+        <h2>🏃 Exercise Log</h2>
         <div class="inline-group">
             <input type="date" id="sportDate">
-            <input type="text" id="sportType" placeholder="运动类型 (如跑步)">
-            <input type="number" id="sportDuration" placeholder="时长(分钟)">
-            <button onclick="addSportRecord()">➕ 添加</button>
+            <input type="text" id="sportType" placeholder="Exercise type (e.g., running)">
+            <input type="number" id="sportDuration" placeholder="Duration (min)">
+            <button onclick="addSportRecord()">➕ Add</button>
         </div>
         <div class="data-table">
             <table id="sportTable">
-                <thead><tr><th>日期</th><th>运动类型</th><th>时长(分钟)</th><th>操作</th></tr></thead>
+                <thead><tr><th>Date</th><th>Exercise Type</th><th>Duration (min)</th><th>Action</th></tr></thead>
                 <tbody id="sportTbody"></tbody>
             </table>
         </div>
         <div id="sportAdvice" class="result" style="display:none;"></div>
     </div>
 
-    <!-- 情绪日记 -->
+    <!-- Mood Diary -->
     <div class="card">
-        <h2>😊 情绪日记</h2>
+        <h2>😊 Mood Diary</h2>
         <div class="inline-group">
             <input type="date" id="moodDate">
             <select id="moodScore">
-                <option value="5">😄 非常好 (5)</option>
-                <option value="4">🙂 不错 (4)</option>
-                <option value="3">😐 一般 (3)</option>
-                <option value="2">🙁 有点糟 (2)</option>
-                <option value="1">😭 很差 (1)</option>
+                <option value="5">😄 Excellent (5)</option>
+                <option value="4">🙂 Good (4)</option>
+                <option value="3">😐 Neutral (3)</option>
+                <option value="2">🙁 Bad (2)</option>
+                <option value="1">😭 Very bad (1)</option>
             </select>
-            <input type="text" id="moodNote" placeholder="备注 (选填)" style="width: 150px;">
-            <button onclick="addMoodRecord()">➕ 添加</button>
+            <input type="text" id="moodNote" placeholder="Note (optional)" style="width: 150px;">
+            <button onclick="addMoodRecord()">➕ Add</button>
         </div>
         <div class="data-table">
             <table id="moodTable">
-                <thead><tr><th>日期</th><th>情绪评分</th><th>备注</th><th>操作</th></tr></thead>
+                <thead><tr><th>Date</th><th>Mood Score</th><th>Note</th><th>Action</th></tr></thead>
                 <tbody id="moodTbody"></tbody>
             </table>
         </div>
@@ -275,24 +274,34 @@
     </div>
 </div>
 
-<!-- 第五行：提醒小工具 -->
+<!-- Row 5: Reminder Tools -->
 <div class="card">
-    <h2>⏰ 健康提醒小工具</h2>
+    <h2>⏰ Health Reminder Tools</h2>
     <div class="inline-group">
-        <button onclick="startWaterReminder()">💧 开启饮水提醒（每45分钟）</button>
-        <button onclick="startPostureReminder()">🧘 开启久坐提醒（每60分钟）</button>
-        <button onclick="stopReminders()">⏹️ 停止所有提醒</button>
+        <button onclick="startWaterReminder()">💧 Start Water Reminder (every 45 min)</button>
+        <button onclick="startPostureReminder()">🧘 Start Posture Reminder (every 60 min)</button>
+        <button onclick="stopReminders()">⏹️ Stop All Reminders</button>
     </div>
     <p id="reminderStatus" style="margin-top: 12px; color:#2c7da0;"></p>
 </div>
 
 <footer>
-    🌱 规律作息 · 适度运动 · 积极心态 · 均衡饮食 — 远离亚健康
+    🌱 Regular routine · Moderate exercise · Positive mindset · Balanced diet — Stay away from suboptimal health
 </footer>
 
 <script>
-    // ----------------------------- 1. 亚健康自测 (SHSQ-25) -----------------------------
-    const questions = [ "容易疲劳，休息后也难以缓解", "入睡困难或睡眠浅、多梦", "头昏脑涨，注意力不集中", "情绪低落或容易烦躁", "肩颈酸痛或腰背不适", "消化不良或食欲不振", "记忆力下降，做事效率低", "对以前喜欢的事情失去兴趣", "心慌、胸闷或气短", "怕冷或怕热，手脚冰凉", "眼睛干涩、视力模糊", "容易感冒或反复口腔溃疡", "皮肤粗糙、长痘或过敏", "性欲减退或月经不调（女性）", "耳鸣、听力下降", "口干咽燥，容易上火", "大便不调（便秘或腹泻）", "紧张时出汗或手抖", "反应迟钝，动作不灵活", "社交回避，不愿与人交流", "清晨起床后仍感困倦", "工作/学习效率明显下降", "对压力易感，容易紧张", "肌肉酸痛（无明确原因）", "体重异常波动（增或减）" ];
+    // ----------------------------- 1. SHSQ-25 Questionnaire -----------------------------
+    const questions = [
+        "Easily fatigued, not relieved after rest", "Difficulty falling asleep or light sleep, many dreams", "Dizziness, poor concentration",
+        "Low mood or easily irritable", "Shoulder, neck or back discomfort", "Indigestion or poor appetite",
+        "Memory decline, low work efficiency", "Loss of interest in previously liked activities", "Palpitations, chest tightness or shortness of breath",
+        "Sensitivity to cold or heat, cold hands/feet", "Dry eyes, blurred vision", "Prone to colds or recurrent mouth ulcers",
+        "Rough skin, acne or allergies", "Decreased libido or irregular menstruation (female)", "Tinnitus, hearing loss",
+        "Dry mouth and throat, prone to上火 (heatiness)", "Irregular bowel movements (constipation or diarrhea)", "Sweating or hand trembling when nervous",
+        "Slow reaction, inflexible movements", "Social withdrawal, unwilling to communicate", "Still tired after waking up in the morning",
+        "Significant decline in work/study efficiency", "Easily stressed by pressure", "Muscle soreness (no clear cause)",
+        "Abnormal weight fluctuation (gain or loss)"
+    ];
 
     function buildQuestions() {
         const container = document.getElementById('questionsContainer');
@@ -301,7 +310,7 @@
         questions.forEach((q, idx) => {
             const div = document.createElement('div');
             div.className = 'question-item';
-            div.innerHTML = `<div class="question-text">${idx+1}. ${q}</div><select id="q${idx}" class="scoreSelect"><option value="0">0 - 无</option><option value="1">1 - 偶尔</option><option value="2">2 - 经常</option><option value="3">3 - 总是</option></select>`;
+            div.innerHTML = `<div class="question-text">${idx+1}. ${q}</div><select id="q${idx}" class="scoreSelect"><option value="0">0 - Never</option><option value="1">1 - Occasionally</option><option value="2">2 - Often</option><option value="3">3 - Always</option></select>`;
             container.appendChild(div);
         });
     }
@@ -312,18 +321,29 @@
             if (select) total += parseInt(select.value);
         }
         let level = '', suggestion = '';
-        if (total >= 40) { level = '🔴 重度亚健康风险'; suggestion = '强烈建议尽快调整生活方式并咨询医生。'; }
-        else if (total >= 25) { level = '🟠 中度亚健康风险'; suggestion = '亚健康状态明显，请规律作息、增加运动、减轻压力。'; }
-        else if (total >= 12) { level = '🟡 轻度亚健康倾向'; suggestion = '注意劳逸结合，均衡饮食，适当锻炼。'; }
-        else { level = '🟢 良好状态'; suggestion = '继续保持良好的生活习惯。'; }
+        if (total >= 40) { level = '🔴 Severe suboptimal health risk'; suggestion = 'Strongly recommended to adjust lifestyle and consult a doctor.'; }
+        else if (total >= 25) { level = '🟠 Moderate suboptimal health risk'; suggestion = 'Obvious suboptimal health. Regular schedule, more exercise, reduce stress.'; }
+        else if (total >= 12) { level = '🟡 Mild suboptimal health tendency'; suggestion = 'Pay attention to work-rest balance, balanced diet, appropriate exercise.'; }
+        else { level = '🟢 Good condition'; suggestion = 'Keep up the good habits!'; }
         const resultDiv = document.getElementById('shsqResult');
         resultDiv.style.display = 'block';
-        resultDiv.innerHTML = `<strong>总分：${total} / 75</strong><br><span style="font-size:1.2rem;">${level}</span><br>${suggestion}<br><small>分数越高，亚健康风险越高。本测评仅供参考。</small>`;
+        resultDiv.innerHTML = `<strong>Total score: ${total} / 75</strong><br><span style="font-size:1.2rem;">${level}</span><br>${suggestion}<br><small>Higher score indicates higher suboptimal health risk. For reference only.</small>`;
         resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
-    // ----------------------------- 2. 健康贴士 -----------------------------
-    const tips = [ "每坐1小时，站起来活动5分钟，缓解腰背压力。", "每天保证7-8小时睡眠，固定入睡和起床时间。", "午餐多吃深绿色蔬菜，补充维生素和膳食纤维。", "工作间隙做深呼吸：吸气4秒，憋气4秒，呼气6秒。", "周末安排30分钟中等强度运动，如快走或骑车。", "每日饮水至少1.5升，少量多次。", "睡前一小时远离电子屏幕，有助提高睡眠质量。", "每天晒太阳15分钟，补充维生素D。", "保持社交联系，与朋友交流可缓解压力。", "每周至少进行2次力量训练，如深蹲、俯卧撑。" ];
+    // ----------------------------- 2. Health Tips -----------------------------
+    const tips = [
+        "Every 1 hour of sitting, stand up and move for 5 minutes to relieve back pressure.",
+        "Get 7-8 hours of sleep daily, with fixed bedtime and wake-up time.",
+        "Eat more dark green vegetables at lunch for vitamins and fiber.",
+        "Deep breathing during work breaks: inhale 4s, hold 4s, exhale 6s.",
+        "Schedule 30 minutes of moderate exercise on weekends, like brisk walking or cycling.",
+        "Drink at least 1.5 liters of water daily, in small amounts frequently.",
+        "Avoid screens one hour before bedtime to improve sleep quality.",
+        "Get 15 minutes of sunlight daily for vitamin D.",
+        "Maintain social connections; talking with friends can relieve stress.",
+        "Do strength training at least twice a week, e.g., squats, push-ups."
+    ];
     function showRandomTip() { const idx = Math.floor(Math.random() * tips.length); document.getElementById('tipDisplay').innerHTML = tips[idx]; }
     showRandomTip();
 
@@ -332,24 +352,24 @@
         const heightCm = parseFloat(document.getElementById('height').value);
         const weightKg = parseFloat(document.getElementById('weight').value);
         const resultDiv = document.getElementById('bmiResult');
-        if (isNaN(heightCm) || isNaN(weightKg) || heightCm <= 0 || weightKg <= 0) { resultDiv.style.display = 'block'; resultDiv.innerHTML = '❌ 请输入有效的身高和体重。'; return; }
+        if (isNaN(heightCm) || isNaN(weightKg) || heightCm <= 0 || weightKg <= 0) { resultDiv.style.display = 'block'; resultDiv.innerHTML = '❌ Please enter valid height and weight.'; return; }
         const bmi = weightKg / ((heightCm/100)**2);
         let category = '';
-        if (bmi < 18.5) category = '体重过轻';
-        else if (bmi < 24) category = '正常范围';
-        else if (bmi < 28) category = '超重';
-        else category = '肥胖';
+        if (bmi < 18.5) category = 'Underweight';
+        else if (bmi < 24) category = 'Normal range';
+        else if (bmi < 28) category = 'Overweight';
+        else category = 'Obese';
         resultDiv.style.display = 'block';
-        resultDiv.innerHTML = `你的 BMI 值为 <strong>${bmi.toFixed(1)}</strong> (${category})。<br>${getBMIAdvice(category)}`;
+        resultDiv.innerHTML = `Your BMI is <strong>${bmi.toFixed(1)}</strong> (${category}).<br>${getBMIAdvice(category)}`;
     }
     function getBMIAdvice(cat) {
-        if (cat === '体重过轻') return '建议增加营养摄入，适当增肌。';
-        if (cat === '正常范围') return '保持均衡饮食和规律运动。';
-        if (cat === '超重') return '注意控制热量，增加有氧运动。';
-        return '建议咨询医生，制定科学减重计划。';
+        if (cat === 'Underweight') return 'Increase nutritional intake and consider muscle gain.';
+        if (cat === 'Normal range') return 'Maintain balanced diet and regular exercise.';
+        if (cat === 'Overweight') return 'Watch calorie intake, increase aerobic exercise.';
+        return 'Consult a doctor for a scientific weight loss plan.';
     }
 
-    // ----------------------------- 4. 健康数据记录 (体重/睡眠/步数) -----------------------------
+    // ----------------------------- 4. Health Data (Weight/Sleep/Steps) -----------------------------
     let healthChart = null;
     function loadHealthData() { return JSON.parse(localStorage.getItem('health_records') || '[]'); }
     function saveHealthData(records) { localStorage.setItem('health_records', JSON.stringify(records)); }
@@ -358,7 +378,7 @@
         const weight = parseFloat(document.getElementById('recordWeight').value);
         const sleep = parseFloat(document.getElementById('recordSleep').value);
         const steps = parseInt(document.getElementById('recordSteps').value);
-        if (isNaN(weight) && isNaN(sleep) && isNaN(steps)) { alert('请至少填写一项有效数据'); return; }
+        if (isNaN(weight) && isNaN(sleep) && isNaN(steps)) { alert('Please fill in at least one valid data field'); return; }
         let records = loadHealthData();
         const existingIdx = records.findIndex(r => r.date === date);
         const newRecord = { date, weight: isNaN(weight)?null:weight, sleep: isNaN(sleep)?null:sleep, steps: isNaN(steps)?null:steps };
@@ -371,7 +391,7 @@
         document.getElementById('recordWeight').value = ''; document.getElementById('recordSleep').value = ''; document.getElementById('recordSteps').value = '';
     }
     function deleteRecord(date) { let records = loadHealthData(); records = records.filter(r => r.date !== date); saveHealthData(records); renderHealthTable(); renderHealthChart(); }
-    function clearAllData() { if (confirm('确定清空所有健康记录吗？')) { localStorage.removeItem('health_records'); renderHealthTable(); renderHealthChart(); } }
+    function clearAllData() { if (confirm('Are you sure you want to clear all health records?')) { localStorage.removeItem('health_records'); renderHealthTable(); renderHealthChart(); } }
     function renderHealthTable() {
         const tbody = document.getElementById('healthTbody');
         const records = loadHealthData();
@@ -384,7 +404,7 @@
             row.insertCell(3).innerText = rec.steps !== null ? rec.steps : '—';
             const delCell = row.insertCell(4);
             const delBtn = document.createElement('button');
-            delBtn.innerText = '删除';
+            delBtn.innerText = 'Delete';
             delBtn.style.backgroundColor = '#a56969';
             delBtn.onclick = () => deleteRecord(rec.date);
             delCell.appendChild(delBtn);
@@ -400,24 +420,24 @@
             data: {
                 labels: records.map(r=>r.date),
                 datasets: [
-                    { label: '体重 (kg)', data: records.map(r=>r.weight), borderColor: '#2c7da0', fill: false },
-                    { label: '睡眠 (小时)', data: records.map(r=>r.sleep), borderColor: '#f4a261', fill: false },
-                    { label: '步数 (千)', data: records.map(r=>r.steps===null?null:r.steps/1000), borderColor: '#e9c46a', fill: false }
+                    { label: 'Weight (kg)', data: records.map(r=>r.weight), borderColor: '#2c7da0', fill: false },
+                    { label: 'Sleep (hours)', data: records.map(r=>r.sleep), borderColor: '#f4a261', fill: false },
+                    { label: 'Steps (thousands)', data: records.map(r=>r.steps===null?null:r.steps/1000), borderColor: '#e9c46a', fill: false }
                 ]
             },
             options: { responsive: true }
         });
     }
 
-    // ----------------------------- 5. 饮食记录 -----------------------------
+    // ----------------------------- 5. Diet Log -----------------------------
     function loadMeals() { return JSON.parse(localStorage.getItem('meal_records') || '[]'); }
     function saveMeals(meals) { localStorage.setItem('meal_records', JSON.stringify(meals)); }
     function addMealRecord() {
         let date = document.getElementById('mealDate').value || new Date().toISOString().slice(0,10);
         const type = document.getElementById('mealType').value;
-        const desc = document.getElementById('mealDesc').value.trim() || '未填写';
+        const desc = document.getElementById('mealDesc').value.trim() || 'Not specified';
         const cal = parseInt(document.getElementById('mealCal').value);
-        if (isNaN(cal)) { alert('请输入热量（kcal）'); return; }
+        if (isNaN(cal)) { alert('Please enter calories (kcal)'); return; }
         const meals = loadMeals();
         meals.push({ date, type, desc, cal });
         meals.sort((a,b)=> new Date(a.date) - new Date(b.date));
@@ -439,7 +459,7 @@
             row.insertCell(3).innerText = m.cal;
             const delCell = row.insertCell(4);
             const delBtn = document.createElement('button');
-            delBtn.innerText = '删除';
+            delBtn.innerText = 'Delete';
             delBtn.onclick = () => deleteMeal(idx);
             delCell.appendChild(delBtn);
             totalCal += m.cal;
@@ -447,18 +467,18 @@
         const summaryDiv = document.getElementById('mealSummary');
         if (meals.length > 0) {
             summaryDiv.style.display = 'block';
-            summaryDiv.innerHTML = `今日总热量（所有记录）: ${totalCal} kcal。建议成年男性约2250，女性约1800。`;
+            summaryDiv.innerHTML = `Total calories (all records): ${totalCal} kcal. Recommended daily: ~2250 for adult males, ~1800 for adult females.`;
         } else summaryDiv.style.display = 'none';
     }
 
-    // ----------------------------- 6. 运动记录 -----------------------------
+    // ----------------------------- 6. Exercise Log -----------------------------
     function loadSports() { return JSON.parse(localStorage.getItem('sport_records') || '[]'); }
     function saveSports(sports) { localStorage.setItem('sport_records', JSON.stringify(sports)); }
     function addSportRecord() {
         let date = document.getElementById('sportDate').value || new Date().toISOString().slice(0,10);
         const type = document.getElementById('sportType').value.trim();
         const duration = parseInt(document.getElementById('sportDuration').value);
-        if (!type || isNaN(duration)) { alert('请填写运动类型和时长'); return; }
+        if (!type || isNaN(duration)) { alert('Please enter exercise type and duration'); return; }
         const sports = loadSports();
         sports.push({ date, type, duration });
         sports.sort((a,b)=> new Date(a.date) - new Date(b.date));
@@ -479,7 +499,7 @@
             row.insertCell(2).innerText = s.duration;
             const delCell = row.insertCell(3);
             const delBtn = document.createElement('button');
-            delBtn.innerText = '删除';
+            delBtn.innerText = 'Delete';
             delBtn.onclick = () => deleteSport(idx);
             delCell.appendChild(delBtn);
             totalMin += s.duration;
@@ -487,11 +507,11 @@
         const adviceDiv = document.getElementById('sportAdvice');
         if (sports.length > 0) {
             adviceDiv.style.display = 'block';
-            adviceDiv.innerHTML = `本周（所有记录）总运动时长: ${totalMin} 分钟。建议每周至少150分钟中等强度运动。`;
+            adviceDiv.innerHTML = `Total exercise duration (all records): ${totalMin} minutes. Recommended at least 150 minutes of moderate-intensity activity per week.`;
         } else adviceDiv.style.display = 'none';
     }
 
-    // ----------------------------- 7. 情绪日记 -----------------------------
+    // ----------------------------- 7. Mood Diary -----------------------------
     let moodChart = null;
     function loadMoods() { return JSON.parse(localStorage.getItem('mood_records') || '[]'); }
     function saveMoods(moods) { localStorage.setItem('mood_records', JSON.stringify(moods)); }
@@ -521,7 +541,7 @@
             row.insertCell(2).innerText = m.note || '—';
             const delCell = row.insertCell(3);
             const delBtn = document.createElement('button');
-            delBtn.innerText = '删除';
+            delBtn.innerText = 'Delete';
             delBtn.onclick = () => deleteMood(idx);
             delCell.appendChild(delBtn);
         });
@@ -535,19 +555,19 @@
             type: 'line',
             data: {
                 labels: moods.map(m=>m.date),
-                datasets: [{ label: '情绪评分 (1-5)', data: moods.map(m=>m.score), borderColor: '#e76f51', fill: false }]
+                datasets: [{ label: 'Mood Score (1-5)', data: moods.map(m=>m.score), borderColor: '#e76f51', fill: false }]
             },
             options: { scales: { y: { min: 1, max: 5 } } }
         });
     }
 
-    // ----------------------------- 8. 提醒小工具 -----------------------------
+    // ----------------------------- 8. Reminder Tools -----------------------------
     let waterInterval = null, postureInterval = null;
-    function startWaterReminder() { if (waterInterval) clearInterval(waterInterval); waterInterval = setInterval(() => alert('💧 饮水时间到！记得补充水分～'), 45*60*1000); document.getElementById('reminderStatus').innerHTML = '饮水提醒已开启（每45分钟）。'; }
-    function startPostureReminder() { if (postureInterval) clearInterval(postureInterval); postureInterval = setInterval(() => alert('🧘 久坐提醒！请站起来活动一下身体。'), 60*60*1000); document.getElementById('reminderStatus').innerHTML = '久坐提醒已开启（每60分钟）。'; }
-    function stopReminders() { if (waterInterval) clearInterval(waterInterval); if (postureInterval) clearInterval(postureInterval); waterInterval = postureInterval = null; document.getElementById('reminderStatus').innerHTML = '所有提醒已停止。'; }
+    function startWaterReminder() { if (waterInterval) clearInterval(waterInterval); waterInterval = setInterval(() => alert('💧 Time to drink water! Stay hydrated.'), 45*60*1000); document.getElementById('reminderStatus').innerHTML = 'Water reminder started (every 45 min).'; }
+    function startPostureReminder() { if (postureInterval) clearInterval(postureInterval); postureInterval = setInterval(() => alert('🧘 Time to stand up and move! Avoid sitting too long.'), 60*60*1000); document.getElementById('reminderStatus').innerHTML = 'Posture reminder started (every 60 min).'; }
+    function stopReminders() { if (waterInterval) clearInterval(waterInterval); if (postureInterval) clearInterval(postureInterval); waterInterval = postureInterval = null; document.getElementById('reminderStatus').innerHTML = 'All reminders stopped.'; }
 
-    // 页面加载时初始化所有表格和图表
+    // Initialize all tables and charts on page load
     window.onload = () => {
         buildQuestions();
         renderHealthTable();
